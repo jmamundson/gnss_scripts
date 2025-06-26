@@ -1,0 +1,17 @@
+#!/bin/bash
+#concatenates a directory of daily solutions into a file with a name specified as
+#an input parameter
+
+outputfiles_neu=$( ls *.pos )
+#outputfiles_geod=$( ls *.geod.out )
+
+for file in $outputfiles_neu; do
+  echo "*Reading*  "$file
+  sed '1,7d' $file | awk '{print $4, $25, $26, $29}' >> $1.neu.dat
+done
+
+#for file in $outputfiles_geod; do
+#  echo "*Reading*  "$file
+#  name=${file:0:9}
+#  sed '1,2d' $file | awk '{print $14, $4, $5, $6}' >> $name.geod.dat
+#done
