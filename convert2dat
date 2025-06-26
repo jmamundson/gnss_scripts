@@ -1,0 +1,10 @@
+#!/bin/bash
+#Convert2dat turns a folder of gps files into dat files. When running the script
+#you must specify the file extension of the gps files (e.g., convert2dat t00).
+
+for i in $( ls *.$1 ); do
+    runpkr00 -d $i
+done
+
+mkdir ../dat/
+mv *.dat ../dat/

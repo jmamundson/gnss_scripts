@@ -1,0 +1,45 @@
+#!/bin/bash
+#Used to convert NetRS dat files to rinex obs files. Program should be run within the 
+#directory of files to be processed. Station name should be input when the script is
+#called.
+
+sid=$1    #station identifier, must be given as input
+mkdir ../rinex
+
+if [ -z $sid ]; then
+  echo "No station identifier given."
+else
+  datfiles=$( ls *.dat )     #list all dat files in directory
+
+  for file in $datfiles; do  #for each file datfile...
+    year=${file:4:4}      #extract the year
+    month=${file:8:2}     #extract the month
+    day=${file:10:2}       #extract the day of the month
+    dayofyear=$( doy $year $month $day | awk '/DOY/ {print $6}' )   #determine the day of the year
+    if [ $dayofyear -lt 10 ]; then
+      dayofyear="00"${dayofyear}
+      else
+        if [ $dayofyear -lt 100 ]; then
+          dayofyear="0"${dayofyear}
+        fi
+    fi
+echo $dayofyear    
+year4ext=${file:6:2}  #extract the last two digits of the year
+    ext='0.'${year4ext}'o' #create an extension
+
+    if [ -a ./$1$dayofyear$ext ] #if the filename that you want to create
+      then                     #is already taken, then change the extension
+        ext='1.'${year4ext}'o'
+        if [ -a ./$1$dayofyear$ext ]
+          then
+          ext='2.'${year4ext}'o'
+        fi
+    fi
+
+    #run teqc
+
+    teqc -tr d -week $year:$month:$day $file > ../rinex/$1$dayofyear$ext
+
+  done
+fi
+

@@ -1,0 +1,8 @@
+#!/bin/bash
+# merge multiple rinex files into one
+# specify four letter station identifier and rinex file extension
+
+stn=$1
+ext=$2
+
+teqc *o > $stn"_merged."$ext

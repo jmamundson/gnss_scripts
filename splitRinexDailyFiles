@@ -1,0 +1,7 @@
+#!/bin/bash
+# split large rinex file into daily files
+# specify filename and 
+file=$1
+stn=$2
+
+teqc -tbin 1d $stn $file
