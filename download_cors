@@ -1,0 +1,14 @@
+#!/bin/bash
+# download base station data from the National Geodetic Survey 
+# need to provide station, year, and day of year
+# for example, download_cors jnu1 2025 186
+
+ssss=$1
+YYYY=$2
+DDD=$3
+
+YY=${YYYY:2:4}
+
+curl -O "https://geodesy.noaa.gov/corsdata/rinex/"$YYYY"/"$DDD"/"$ssss"/"$ssss$DDD"0."$YY"o.gz"
+gunzip $ssss$DDD"0."$YY"o.gz" 
+ 
